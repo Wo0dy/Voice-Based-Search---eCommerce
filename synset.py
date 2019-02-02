@@ -1,5 +1,5 @@
 from typing import List, Optional, Tuple
-
+import os
 from load import load_words
 import vectors as v
 from vectors import Vector
@@ -19,13 +19,14 @@ def print_most_similar(words: List[Word], text: str) -> None:
     if not base_word:
         print(f"Uknown word: {text}")
         return
-    print(f"Words related to {base_word.text}:")
+    #print(f"Words related to {base_word.text}:")
     sorted_by_distance = [
         word.text for (dist, word) in
         most_similar(base_word.vector, words)
         if word.text.lower() != base_word.text.lower()
     ]
-    print(', '.join(sorted_by_distance[:10]))
+    # print(', '.join(sorted_by_distance[:10]))
+    return sorted_by_distance[:10]
 
 
 def read_word() -> str:
@@ -42,21 +43,22 @@ def find_word(text: str, words: List[Word]) -> Optional[Word]:
 def nearest_words(text):
     w = find_word(text, words)
     if not w:
-        print("Sorry, I don't know that word.")
+        return "Sorry, I don't know that word."
     else:
-        print_most_similar(words, text)
+        return print_most_similar(words, text)
 
 
-words = load_words('data/wiki-short.vec')
+words = load_words(os.path.join(os.path.dirname(__file__), 'data/wiki-short.vec'))
 
-print_most_similar(words, words[190].text)
-print_most_similar(words, words[230].text)
-print_most_similar(words, words[330].text)
-print_most_similar(words, words[430].text)
+if __name__ == "__main__":
+    print_most_similar(words, words[190].text)
+    print_most_similar(words, words[230].text)
+    print_most_similar(words, words[330].text)
+    print_most_similar(words, words[430].text)
 
-print("")
+    print("")
 
-# Related words (interactive)
-while True:
-    text = read_word()
-    nearest_words(text)
+    # Related words (interactive)
+    while True:
+        text = read_word()
+        nearest_words(text)

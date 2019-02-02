@@ -1,5 +1,6 @@
 import nltk
 from nltk.corpus import stopwords
+import os
 from nltk.tokenize import sent_tokenize
 import re
 
@@ -14,7 +15,7 @@ def tagger():
     '''
     tokenizes a string and tags it with parts of speech.
     '''
-    f = open('inp.txt', 'r')
+    f = open(os.path.join(os.path.dirname(__file__), 'inp.txt'), 'r')
     txt = f.readline()
     f.close()
 
@@ -26,7 +27,9 @@ def tagger():
     # Using a Tagger. Which is part-of-speech
     # tagger or POS-tagger.
     tagged = nltk.pos_tag(wordslist)
-    print(tagged)
+
+    # Uncomment the below line to see the tags
+    # print(tagged)
     return tagged
 
 
@@ -56,7 +59,7 @@ def clean(unclean_tokens):
     unclean_tokens = to_small(unclean_tokens)
     tokens = remove_search(unclean_tokens)
 
-    print(tokens)
+    # print(tokens)
     for ind, token in enumerate(tokens):
         if token[1] in adjectives:
             if ind + 1 < len(tokens) and tokens[ind + 1][1] in nouns:
@@ -83,6 +86,12 @@ def to_small(tokens):
     converts input tokens to lower case.
     '''
     return [(tup[0].lower(), tup[1]) for tup in tokens]
+
+
+def clean_tokens():
+    raw_tokens = tagger()
+    results = clean(raw_tokens)
+    return results
 
 
 # POS tag list:

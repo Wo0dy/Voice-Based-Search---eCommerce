@@ -1,6 +1,6 @@
 Our aim was to build a voice based search engine which queries the e-commerce data base and gives out the result
 
-Please unzip the wiki-short.zip file in the data folder before running the main.py(This is inconvenience is because git doesnt allow more than 100 mb file upload)
+Please unzip the wiki-short.zip file in the data folder before running the main.py(This inconvenience is because git doesnt allow more than 100 mb file upload, if possible a task will be included for this.)
 
 Tasks to be done:
 
@@ -39,10 +39,15 @@ Prereq: Task 5 to be completed.<br />
 Status: Pending.<br />
 Priority: High<br />
 
+Task 7: python script to unzip the file(this script has to has to be called in main before file load)<br />
+Status: Pending<br />
+Priority: Low<br />
 
-Will Soon create issues for all the above tasks.
-Lot of tasks are yet to come and also to be discussed(website creation, plugging the search, rendering of the Products.)
 
+Will Soon create issues for all the above tasks.<br />
+Lot of tasks are yet to come and also to be discussed(website creation, plugging the search, rendering of the Products.)<br />
+Please go with the priority of the task and also if the task is simple like that of Task 7 dont mind taking up that issue and resolving it asap.<br />
+Thanks!<br />
 
 Special thanks to mkonicek for his wonderful implementation to find the similar words on the word2vec data.
 https://github.com/mkonicek/nlp

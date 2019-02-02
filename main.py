@@ -39,6 +39,14 @@ def find_word(text: str, words: List[Word]) -> Optional[Word]:
         return None
 
 
+def nearest_words(text):
+    w = find_word(text, words)
+    if not w:
+        print("Sorry, I don't know that word.")
+    else:
+        print_most_similar(words, text)
+
+
 words = load_words('data/wiki-short.vec')
 
 print_most_similar(words, words[190].text)
@@ -51,8 +59,4 @@ print("")
 # Related words (interactive)
 while True:
     text = read_word()
-    w = find_word(text, words)
-    if not w:
-        print("Sorry, I don't know that word.")
-    else:
-        print_most_similar(words, text)
+    nearest_words(text)

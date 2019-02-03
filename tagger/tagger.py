@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 import os
 from nltk.tokenize import sent_tokenize
+from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 import re
 
 delimiters = [",", "\'\'", "``", "#", "$", "(", ")", ".", ":", ";", "%", "-", "}", "{", "!", "!!", "!!!", "\""]
@@ -9,6 +10,7 @@ adjectives = ['JJ', 'JJR', 'JJS']
 nouns = ['NNP', 'NN', 'NNS', 'NNPS']
 search_list = ["searches", "searching", "seach", "searched", "google", "find", "query", "keyword", "searcher",
                "finding", "search"]
+sia = SIA()
 
 
 def tagger():
@@ -94,6 +96,13 @@ def clean_tokens():
     return results
 
 
+# prints sentiment of the parameter.
+def adjective_sentiment(word):
+    score = sia.polarity_scores(word)
+    for w in score.keys():
+        print(w, score[w])
+
+
 # POS tag list:
 #
 # CC	coordinating conjunction
@@ -136,3 +145,8 @@ if __name__ == '__main__':
     result = clean(tagger())
     for i in range(len(result)):
         print(result[i]['adjective'] if 'adjective' in result[i] else "", result[i]['noun'])
+        # if 'adjective' in result[i]:
+        #     score = sia.polarity_scores(result[i]['adjective'])
+        #     for w in score.keys():
+        #         print(w, score[w])
+        #     print()

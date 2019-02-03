@@ -11,7 +11,7 @@ Priority: Very High<br />
 
 
 Task 2: Parts of speech tagger on the text obtained from Task 1(includes writing methods to clean the data after POS tags, also task *doesnt involve stemming and tokenization*).<br />
-Status: Pending<br />
+Status: Done<br />
 Priority: High<br />
 
 
@@ -22,7 +22,7 @@ Priority: High<br />
 
 
 Task 4: Do a sentiment Analysis over the *words* obtained from Task 3 and select the words in such a way that it matches the sentiment of the given word.<br />
-Status: Pending<br />
+Status: Not Required<br />
 Priority: Medium<br />
 UseCase: searching for words like *new* gives words like *old,worn* which have an opposite sentiment, so we need to filter out these words.<br />
 We are not supposed to search for old when user asks for something new.<br />

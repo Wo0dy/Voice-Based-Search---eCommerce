@@ -1,13 +1,35 @@
 import sys
+import speech_recognition as sr
 
 sys.path.append('../tagger/')
 sys.path.append('../')
 import tagger
 import synset
 
+# obtain audio from the microphone
+r = sr.Recognizer()
 k_nearest = 10
 
-result = tagger.clean_tokens()
+with sr.Microphone() as source:
+    print("Say something!")
+    audio = r.listen(source)
+
+query = ""
+# recognize speech using Google Speech Recognition
+try:
+    # for testing purposes, we're just using the default API key
+    # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+    # instead of `r.recognize_google(audio)`
+    query = r.recognize_google(audio)
+    print("Google Speech Recognition thinks you said: " + query)
+    print()
+except sr.UnknownValueError:
+    print("Google Speech Recognition could not understand audio")
+except sr.RequestError as e:
+    print("Could not request results from Google Speech Recognition service; {0}".format(e))
+
+
+result = tagger.clean_tokens(query)
 print()
 for i in range(len(result)):
     word = result[i]['noun']

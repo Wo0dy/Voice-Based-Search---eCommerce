@@ -13,13 +13,13 @@ search_list = ["searches", "searching", "seach", "searched", "google", "find", "
 sia = SIA()
 
 
-def tagger():
+def tagger(txt):
     '''
     tokenizes a string and tags it with parts of speech.
     '''
-    f = open(os.path.join(os.path.dirname(__file__), 'inp.txt'), 'r')
-    txt = f.readline()
-    f.close()
+    # f = open(os.path.join(os.path.dirname(__file__), 'inp.txt'), 'r')
+    # txt = f.readline()
+    # f.close()
 
     # Word tokenizers is used to find the words
     # and punctuation in a string
@@ -31,7 +31,7 @@ def tagger():
     tagged = nltk.pos_tag(wordslist)
 
     # Uncomment the below line to see the tags
-    # print(tagged)
+    print(tagged)
     return tagged
 
 
@@ -90,8 +90,8 @@ def to_small(tokens):
     return [(tup[0].lower(), tup[1]) for tup in tokens]
 
 
-def clean_tokens():
-    raw_tokens = tagger()
+def clean_tokens(txt):
+    raw_tokens = tagger(txt)
     results = clean(raw_tokens)
     return results
 
@@ -142,7 +142,7 @@ def adjective_sentiment(word):
 # WRB	wh-adverb	where, when
 
 if __name__ == '__main__':
-    result = clean(tagger())
+    result = clean(tagger("search for a checked  shirt"))
     for i in range(len(result)):
         print(result[i]['adjective'] if 'adjective' in result[i] else "", result[i]['noun'])
         # if 'adjective' in result[i]:

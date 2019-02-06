@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample voice search and Product recommendation</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
+
+<body>
+  
+<header class="navbar">
+  <form action="/voiceSearch" method="get" enctype="multipart/form-data" >
+   <input type="submit" value="Cick for voice search!" class="btn btn-primary">
+  </form>
+</header>
+ <form action="/productRecommendation" method="get" enctype="multipart/form-data" >
+      <span class="btn btn-default btn-file">
+        Enter user id <input type="text" name="userId">
+      </span>
+
+    <input type="submit" value="userid" class="btn btn-primary">
+  </form>
+
+
+</body>
+</html>

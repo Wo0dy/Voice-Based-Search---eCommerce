@@ -2,8 +2,10 @@ import nltk
 from nltk.corpus import stopwords
 import os
 from nltk.tokenize import sent_tokenize
+from nltk.stem.porter import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 import re
+from statistics import mean
 
 delimiters = [",", "\'\'", "``", "#", "$", "(", ")", ".", ":", ";", "%", "-", "}", "{", "!", "!!", "!!!", "\""]
 adjectives = ['JJ', 'JJR', 'JJS']
@@ -11,7 +13,7 @@ nouns = ['NNP', 'NN', 'NNS', 'NNPS']
 search_list = ["searches", "searching", "seach", "searched", "google", "find", "query", "keyword", "searcher",
                "finding", "search"]
 sia = SIA()
-
+stem = PorterStemmer()
 
 def tagger(txt):
     '''
@@ -29,7 +31,7 @@ def tagger(txt):
     # Using a Tagger. Which is part-of-speech
     # tagger or POS-tagger.
     tagged = nltk.pos_tag(wordslist)
-
+    # stemmed_and_tagged = stemming(tagged)
     # Uncomment the below line to see the tags
     print(tagged)
     return tagged
@@ -48,6 +50,26 @@ def remove_stopwords(tokens):
     '''
     stopwords_list = stopwords.words('english')
     return [tup for tup in tokens if tup[0] not in stopwords_list]
+
+
+def stemming(tagged):
+    res = []
+    for tg in tagged:
+        res.append((stem.stem(tg[0]),tg[1]))
+    return res
+
+
+def stem_and_tag(txt):
+    wordslist = nltk.word_tokenize(txt)
+    wordslist = [w for w in wordslist]
+
+    # Using a Tagger. Which is part-of-speech
+    # tagger or POS-tagger.
+    tagged = nltk.pos_tag(wordslist)
+    stemmed_and_tagged = stemming(tagged)
+    # Uncomment the below line to see the tags
+    # print(stemmed_and_tagged)
+    return stemmed_and_tagged
 
 
 def clean(unclean_tokens):
@@ -96,11 +118,40 @@ def clean_tokens(txt):
     return results
 
 
+def clean_taggedtokens(txt):
+    raw_tokens = stem_and_tag(txt)
+    results = clean(raw_tokens)
+    return results
+
+
 # prints sentiment of the parameter.
-def adjective_sentiment(word):
-    score = sia.polarity_scores(word)
-    for w in score.keys():
-        print(w, score[w])
+def adjective_sentiment(paragraph):
+    sentences = nltk.sent_tokenize(paragraph)
+    mini = []
+    maxi = []
+    compound = []
+    for st in sentences:
+        score = sia.polarity_scores(st)
+        mini.append(score['neg'])
+        maxi.append(score['pos'])
+        compound.append(score['compound'])
+
+    mini.append(0)
+    maxi.append(0)
+    if abs(min(mini)) < max(maxi):
+        return max(maxi)
+    elif abs(min(mini)) > max(maxi):
+        return min(mini)
+
+    if compound:
+        if mean(compound) < 0:
+            return mean(compound)
+        elif mean(compound) > 0:
+            return mean(compound)
+        else:
+            return 0
+    else:
+        return 0
 
 
 # POS tag list:
@@ -142,7 +193,7 @@ def adjective_sentiment(word):
 # WRB	wh-adverb	where, when
 
 if __name__ == '__main__':
-    result = clean(tagger("search for a checked  shirt"))
+    result = clean(tagger("search for a checked shirt"))
     for i in range(len(result)):
         print(result[i]['adjective'] if 'adjective' in result[i] else "", result[i]['noun'])
         # if 'adjective' in result[i]:

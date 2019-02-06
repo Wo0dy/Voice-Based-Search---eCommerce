@@ -1,5 +1,8 @@
 import sys
 import speech_recognition as sr
+sys.path.append('./')
+import uploaddata
+import pprint
 
 sys.path.append('../tagger/')
 sys.path.append('../')
@@ -43,11 +46,19 @@ for i in range(len(result)):
         result[i]['list'] = nearest_words_list
 
 if __name__ == "__main__":
+    elasticsearch_inp = []
     for i in range(len(result)):
         if 'adjective' in result[i]:
+            elasticsearch_inp.append(result[i]['adjective'])
             print("phrase : ", result[i]['adjective'], result[i]['noun'])
         else:
             print("phrase : ", result[i]['noun'])
         print("error : ", result[i]['error'])
         print("list : ", result[i]['list'])
         print()
+        elasticsearch_inp.append(result[i]['noun'])
+
+    response = uploaddata.search(elasticsearch_inp)
+    pprint(response)
+
+
